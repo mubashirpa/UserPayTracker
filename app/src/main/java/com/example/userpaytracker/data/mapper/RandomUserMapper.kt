@@ -8,5 +8,6 @@ fun RandomUsersDto.toUser(): List<User> =
         ?.map {
             User(
                 name = "${it.name?.first} ${it.name?.last}",
+                picture = it.picture?.medium,
             )
         }.orEmpty()
