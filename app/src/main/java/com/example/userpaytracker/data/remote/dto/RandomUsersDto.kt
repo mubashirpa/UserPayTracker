@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RandomUsersDto(
-    val info: InfoDto,
-    val results: List<UserDto>,
+    val info: InfoDto? = null,
+    val results: List<UserDto>? = null,
 )

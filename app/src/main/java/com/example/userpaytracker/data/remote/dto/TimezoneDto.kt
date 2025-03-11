@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TimezoneDto(
-    val description: String,
-    val offset: String,
+    val description: String? = null,
+    val offset: String? = null,
 )

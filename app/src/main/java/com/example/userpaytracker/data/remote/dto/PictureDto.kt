@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PictureDto(
-    val large: String,
-    val medium: String,
-    val thumbnail: String,
+    val large: String? = null,
+    val medium: String? = null,
+    val thumbnail: String? = null,
 )

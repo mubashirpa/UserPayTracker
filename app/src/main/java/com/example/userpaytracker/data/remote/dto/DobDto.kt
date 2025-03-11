@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DobDto(
-    val age: Int,
-    val date: String,
+    val age: Int? = null,
+    val date: String? = null,
 )

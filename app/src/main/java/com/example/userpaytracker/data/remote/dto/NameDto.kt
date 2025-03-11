@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NameDto(
-    val first: String,
-    val last: String,
-    val title: String,
+    val first: String? = null,
+    val last: String? = null,
+    val title: String? = null,
 )

@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LocationDto(
-    val city: String,
-    val coordinates: CoordinatesDto,
-    val country: String,
-    val postcode: Int,
-    val state: String,
-    val street: StreetDto,
-    val timezone: TimezoneDto,
+    val city: String? = null,
+    val coordinates: CoordinatesDto? = null,
+    val country: String? = null,
+    val postcode: String? = null,
+    val state: String? = null,
+    val street: StreetDto? = null,
+    val timezone: TimezoneDto? = null,
 )

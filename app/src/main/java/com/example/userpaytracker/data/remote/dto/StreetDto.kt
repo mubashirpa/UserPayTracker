@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class StreetDto(
-    val name: String,
-    val number: Int,
+    val name: String? = null,
+    val number: Int? = null,
 )
