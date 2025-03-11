@@ -60,10 +60,11 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.navigation)
     implementation(libs.bundles.coil)
+    implementation(libs.bundles.room)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
     implementation(libs.koin.android)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.paging.runtime.ktx)
 }
