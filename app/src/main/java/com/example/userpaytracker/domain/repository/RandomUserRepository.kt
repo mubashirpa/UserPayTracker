@@ -12,4 +12,6 @@ interface RandomUserRepository {
     ): Flow<Result<List<User>>>
 
     suspend fun upsertUser(user: UserEntity)
+
+    suspend fun clearUsers()
 }

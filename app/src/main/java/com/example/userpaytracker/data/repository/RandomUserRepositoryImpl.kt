@@ -42,4 +42,8 @@ class RandomUserRepositoryImpl(
     override suspend fun upsertUser(user: UserEntity) {
         dao.upsertUser(user)
     }
+
+    override suspend fun clearUsers() {
+        dao.clearAll()
+    }
 }
