@@ -9,6 +9,7 @@ import com.example.userpaytracker.domain.model.User
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getRandomUsersUseCase: GetRandomUsersUseCase,
@@ -27,9 +28,11 @@ class HomeViewModel(
     }
 
     private fun getRandomUsers() {
-        getRandomUsersUseCase()
-            .onEach { result ->
-                _usersResult.value = result
-            }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            getRandomUsersUseCase()
+                .onEach { result ->
+                    _usersResult.value = result
+                }.launchIn(this)
+        }
     }
 }
