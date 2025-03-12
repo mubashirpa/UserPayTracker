@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.userpaytracker.R
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.databinding.FragmentHomeBinding
+import com.example.userpaytracker.navigation.Screen
 import com.example.userpaytracker.presentation.components.AddVisitorBottomSheet
 import com.example.userpaytracker.presentation.core.utils.dpToPx
 import com.google.android.material.snackbar.Snackbar
@@ -65,7 +66,11 @@ class HomeFragment : Fragment() {
         val adapter =
             HomeAdapter(
                 context = requireContext(),
-                navigateToPaymentDetails = { /*TODO*/ },
+                navigateToPaymentDetails = { user ->
+                    user.id?.let { id ->
+                        navController.navigate(Screen.PaymentDetails(id))
+                    }
+                },
             )
         binding.recyclerView.adapter = adapter
 
@@ -106,6 +111,7 @@ class HomeFragment : Fragment() {
                 }
 
                 is Result.Success -> {
+                    binding.errorView.visibility = View.GONE
                     adapter.submitList(users) {
                         binding.progressCircular.visibility = View.GONE
                         binding.recyclerView.visibility = View.VISIBLE
@@ -120,9 +126,9 @@ class HomeFragment : Fragment() {
 
         binding.extendedFab.setOnClickListener {
             AddVisitorBottomSheet()
-                .setOnAddVisitorClickListener { dialog, name ->
+                .setOnAddVisitorClickListener { dialog, name, email ->
                     dialog.dismiss()
-                    viewModel.onEvent(HomeUiEvent.AddVisitor(name))
+                    viewModel.onEvent(HomeUiEvent.AddVisitor(name, email))
                 }.show(childFragmentManager, AddVisitorBottomSheet.TAG)
         }
 

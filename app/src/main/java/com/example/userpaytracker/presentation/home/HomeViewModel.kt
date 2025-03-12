@@ -27,7 +27,7 @@ class HomeViewModel(
 
     fun onEvent(event: HomeUiEvent) {
         when (event) {
-            is HomeUiEvent.AddVisitor -> addVisitor(event.name)
+            is HomeUiEvent.AddVisitor -> addVisitor(event.name, event.email)
 
             HomeUiEvent.ClearUsers -> clearUsers()
 
@@ -44,8 +44,11 @@ class HomeViewModel(
         }
     }
 
-    private fun addVisitor(name: String) {
-        addVisitorUseCase(name).launchIn(viewModelScope)
+    private fun addVisitor(
+        name: String,
+        email: String,
+    ) {
+        addVisitorUseCase(name, email).launchIn(viewModelScope)
     }
 
     private fun clearUsers() {
