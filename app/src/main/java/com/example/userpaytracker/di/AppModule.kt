@@ -1,12 +1,14 @@
 package com.example.userpaytracker.di
 
+import androidx.room.Room
 import com.example.userpaytracker.core.Constants
+import com.example.userpaytracker.data.local.database.UserDatabase
 import com.example.userpaytracker.data.remote.api.RandomUserService
 import com.example.userpaytracker.data.repository.RandomUserRepositoryImpl
 import com.example.userpaytracker.domain.repository.RandomUserRepository
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
 import com.example.userpaytracker.presentation.home.HomeViewModel
-import org.koin.core.module.dsl.singleOf
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -22,7 +24,12 @@ val appModule =
                 .build()
                 .create(RandomUserService::class.java)
         }
-        single<RandomUserRepository> { RandomUserRepositoryImpl(get()) }
-        singleOf(::GetRandomUsersUseCase)
+        single {
+            Room
+                .databaseBuilder(androidContext(), UserDatabase::class.java, "user-database")
+                .build()
+        }
+        single<RandomUserRepository> { RandomUserRepositoryImpl(get(), get()) }
+        single { GetRandomUsersUseCase(get()) }
         viewModelOf(::HomeViewModel)
     }
