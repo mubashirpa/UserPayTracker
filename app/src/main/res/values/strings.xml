@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">UserPayTracker</string>
+    <string name="add_visitor">Add visitor</string>
+    <string name="retry">Retry</string>
+
+    <!-- Screen titles -->
+    <string name="title_home_screen">Users</string>
 
     <!-- Screen labels -->
     <string name="label_home_screen">Home</string>
