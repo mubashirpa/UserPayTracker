@@ -8,6 +8,7 @@ fun RandomUsersDto.toUserEntity(): List<UserEntity> =
     results
         ?.map {
             UserEntity(
+                email = it.email,
                 name = "${it.name?.first} ${it.name?.last}",
                 paymentAmount = 2500.0,
                 paymentCompleted = false,
@@ -18,6 +19,7 @@ fun RandomUsersDto.toUserEntity(): List<UserEntity> =
 
 fun UserEntity.toUser(): User =
     User(
+        email = email,
         id = id,
         name = name,
         paymentAmount = paymentAmount,
