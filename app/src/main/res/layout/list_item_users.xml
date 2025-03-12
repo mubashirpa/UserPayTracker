@@ -14,11 +14,12 @@
         android:layout_height="56dp"
         android:background="@drawable/bg_placeholder"
         android:contentDescription=""
-        android:scaleType="centerCrop"
+        android:padding="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerMedium" />
+        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerMedium"
+        app:strokeColor="@color/green" />
 
     <TextView
         android:id="@+id/headline_text"
@@ -44,6 +45,7 @@
         android:text=""
         android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="?attr/colorOnSurfaceVariant"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/headline_text"
         app:layout_constraintStart_toStartOf="@+id/headline_text"
