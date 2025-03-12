@@ -1,6 +1,8 @@
 package com.example.userpaytracker.presentation.home
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,8 +13,10 @@ import coil3.request.placeholder
 import com.example.userpaytracker.R
 import com.example.userpaytracker.databinding.ListItemUsersBinding
 import com.example.userpaytracker.domain.model.User
+import com.example.userpaytracker.presentation.core.utils.dpToPx
 
 class HomeAdapter(
+    private val context: Context,
     private val navigateToPaymentDetails: (User) -> Unit,
 ) : ListAdapter<User, HomeAdapter.ViewHolder>(DIFF_CALLBACK) {
     inner class ViewHolder(
@@ -24,8 +28,14 @@ class HomeAdapter(
                     crossfade(true)
                     placeholder(R.drawable.bg_placeholder)
                 }
+                if (item.paymentCompleted == true) {
+                    leadingImage.strokeWidth = dpToPx(2f, context).toFloat()
+                }
                 headlineText.text = item.name
-                supportingText.text = "2500" // TODO
+                item.paymentAmount?.toString()?.let {
+                    supportingText.text = it
+                    supportingText.visibility = View.VISIBLE
+                }
 
                 binding.root.setOnClickListener {
                     navigateToPaymentDetails(item)
@@ -56,7 +66,7 @@ class HomeAdapter(
                 override fun areItemsTheSame(
                     oldItem: User,
                     newItem: User,
-                ): Boolean = oldItem.name == newItem.name
+                ): Boolean = oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: User,
