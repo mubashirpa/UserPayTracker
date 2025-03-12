@@ -11,9 +11,12 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.userpaytracker.R
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.databinding.FragmentHomeBinding
+import com.example.userpaytracker.presentation.components.AddVisitorBottomSheet
 import com.example.userpaytracker.presentation.core.utils.dpToPx
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -67,31 +70,58 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         viewModel.usersResult.observe(viewLifecycleOwner) { result ->
+            val users = result.data.orEmpty()
+
             when (result) {
                 is Result.Empty -> {}
 
                 is Result.Error -> {
                     binding.progressCircular.visibility = View.GONE
-                    binding.errorText.text = result.message!!.asString(requireContext())
-                    binding.errorView.visibility = View.VISIBLE
+                    if (users.isEmpty()) {
+                        binding.errorText.text = result.message!!.asString(requireContext())
+                        binding.errorView.visibility = View.VISIBLE
+                    } else {
+                        Snackbar
+                            .make(
+                                requireContext(),
+                                binding.root,
+                                result.message!!.asString(requireContext()),
+                                Snackbar.LENGTH_INDEFINITE,
+                            ).setAction(R.string.retry) {
+                                viewModel.onEvent(HomeUiEvent.Retry)
+                            }.setAnchorView(binding.extendedFab)
+                            .show()
+                    }
                 }
 
                 is Result.Loading -> {
                     binding.errorView.visibility = View.GONE
                     binding.progressCircular.visibility = View.VISIBLE
+                    if (users.isNotEmpty()) {
+                        adapter.submitList(users) {
+                            binding.recyclerView.visibility = View.VISIBLE
+                        }
+                    }
                 }
 
                 is Result.Success -> {
-                    val users = result.data.orEmpty()
-                    adapter.submitList(users)
-                    binding.progressCircular.visibility = View.GONE
-                    binding.recyclerView.visibility = View.VISIBLE
+                    adapter.submitList(users) {
+                        binding.progressCircular.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                    }
                 }
             }
         }
 
         binding.retryButton.setOnClickListener {
             viewModel.onEvent(HomeUiEvent.Retry)
+        }
+
+        binding.extendedFab.setOnClickListener {
+            AddVisitorBottomSheet()
+                .setOnAddVisitorClickListener { dialog, name ->
+                    dialog.dismiss()
+                }.show(childFragmentManager, AddVisitorBottomSheet.TAG)
         }
     }
 
