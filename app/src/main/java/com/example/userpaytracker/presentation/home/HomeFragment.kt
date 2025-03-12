@@ -71,6 +71,7 @@ class HomeFragment : Fragment() {
 
         viewModel.usersResult.observe(viewLifecycleOwner) { result ->
             val users = result.data.orEmpty()
+            val message = result.message?.asString(requireContext())
 
             when (result) {
                 is Result.Empty -> {}
@@ -78,14 +79,14 @@ class HomeFragment : Fragment() {
                 is Result.Error -> {
                     binding.progressCircular.visibility = View.GONE
                     if (users.isEmpty()) {
-                        binding.errorText.text = result.message!!.asString(requireContext())
+                        binding.errorText.text = message
                         binding.errorView.visibility = View.VISIBLE
                     } else {
                         Snackbar
                             .make(
                                 requireContext(),
                                 binding.root,
-                                result.message!!.asString(requireContext()),
+                                message ?: "",
                                 Snackbar.LENGTH_INDEFINITE,
                             ).setAction(R.string.retry) {
                                 viewModel.onEvent(HomeUiEvent.Retry)
@@ -121,7 +122,19 @@ class HomeFragment : Fragment() {
             AddVisitorBottomSheet()
                 .setOnAddVisitorClickListener { dialog, name ->
                     dialog.dismiss()
+                    viewModel.onEvent(HomeUiEvent.AddVisitor(name))
                 }.show(childFragmentManager, AddVisitorBottomSheet.TAG)
+        }
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.clear -> {
+                    viewModel.onEvent(HomeUiEvent.ClearUsers)
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
