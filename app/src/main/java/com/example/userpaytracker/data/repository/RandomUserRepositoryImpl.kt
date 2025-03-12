@@ -4,6 +4,7 @@ import androidx.room.withTransaction
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.core.utils.networkBoundResource
 import com.example.userpaytracker.data.local.database.UserDatabase
+import com.example.userpaytracker.data.local.entity.UserEntity
 import com.example.userpaytracker.data.mapper.toUser
 import com.example.userpaytracker.data.mapper.toUserEntity
 import com.example.userpaytracker.data.remote.api.RandomUserService
@@ -32,9 +33,13 @@ class RandomUserRepositoryImpl(
             saveFetchResult = { users ->
                 database.withTransaction {
                     dao.clearAll()
-                    dao.insertAll(users.toUserEntity())
+                    dao.upsertAll(users.toUserEntity())
                 }
             },
             shouldFetch = { it.isEmpty() },
         )
+
+    override suspend fun upsertUser(user: UserEntity) {
+        dao.upsertUser(user)
+    }
 }
