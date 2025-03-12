@@ -1,5 +1,6 @@
 package com.example.userpaytracker.core.utils
 
+import com.example.userpaytracker.R
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.core.UiText
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,11 @@ inline fun <ResultType, RequestType> networkBoundResource(
                 saveFetchResult(fetch())
                 query().map { Result.Success(it) }
             } catch (throwable: Throwable) {
-                query().map { Result.Error(UiText.DynamicString(throwable.message.orEmpty()), it) }
+                val message =
+                    throwable.message?.let {
+                        UiText.DynamicString(it)
+                    } ?: UiText.StringResource(R.string.error_unknown)
+                query().map { Result.Error(message, it) }
             }
         } else {
             query().map { Result.Success(it) }
