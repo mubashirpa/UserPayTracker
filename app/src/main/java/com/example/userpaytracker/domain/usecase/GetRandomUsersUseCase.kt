@@ -12,11 +12,14 @@ import kotlinx.coroutines.flow.flow
 class GetRandomUsersUseCase(
     private val repository: RandomUserRepository,
 ) {
-    operator fun invoke(): Flow<Result<List<User>>> =
+    operator fun invoke(
+        page: Int = 1,
+        results: Int = 20,
+    ): Flow<Result<List<User>>> =
         flow {
             try {
                 emit(Result.Loading())
-                val users = repository.getRandomUsers().toUser()
+                val users = repository.getRandomUsers(page, results).toUser()
                 emit(Result.Success(users))
             } catch (e: Exception) {
                 e.message?.let { message ->
