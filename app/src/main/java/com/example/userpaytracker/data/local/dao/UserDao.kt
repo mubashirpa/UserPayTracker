@@ -9,7 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Upsert
-    suspend fun insertAll(users: List<UserEntity>)
+    suspend fun upsertAll(users: List<UserEntity>)
+
+    @Upsert
+    suspend fun upsertUser(user: UserEntity)
 
     @Query("SELECT * FROM users")
     fun getAll(): Flow<List<UserEntity>>
