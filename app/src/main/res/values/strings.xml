@@ -2,6 +2,9 @@
     <string name="app_name">UserPayTracker</string>
     <string name="add_visitor">Add visitor</string>
     <string name="retry">Retry</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="full_name">Full name</string>
 
     <!-- Screen titles -->
     <string name="title_home_screen">Users</string>
