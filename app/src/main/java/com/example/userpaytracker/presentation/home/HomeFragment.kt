@@ -1,8 +1,6 @@
 package com.example.userpaytracker.presentation.home
 
-import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.databinding.FragmentHomeBinding
+import com.example.userpaytracker.presentation.core.utils.dpToPx
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -62,6 +61,7 @@ class HomeFragment : Fragment() {
 
         val adapter =
             HomeAdapter(
+                context = requireContext(),
                 navigateToPaymentDetails = { /*TODO*/ },
             )
         binding.recyclerView.adapter = adapter
@@ -99,15 +99,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun dpToPx(
-        dp: Float,
-        context: Context,
-    ): Int =
-        TypedValue
-            .applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                context.resources.displayMetrics,
-            ).toInt()
 }
