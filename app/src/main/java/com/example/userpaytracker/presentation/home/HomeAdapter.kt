@@ -2,13 +2,13 @@ package com.example.userpaytracker.presentation.home
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
+import coil3.request.error
 import coil3.request.placeholder
 import com.example.userpaytracker.R
 import com.example.userpaytracker.databinding.ListItemUsersBinding
@@ -27,15 +27,14 @@ class HomeAdapter(
                 leadingImage.load(item.picture) {
                     crossfade(true)
                     placeholder(R.drawable.bg_placeholder)
+                    error(R.drawable.baseline_person_24)
                 }
                 if (item.paymentCompleted == true) {
                     leadingImage.strokeWidth = dpToPx(2f, context).toFloat()
                 }
                 headlineText.text = item.name
-                item.paymentAmount?.toString()?.let {
-                    supportingText.text = it
-                    supportingText.visibility = View.VISIBLE
-                }
+                supportingText.text = item.email
+                paymentText.text = "₹${item.paymentAmount?.toInt()}"
 
                 binding.root.setOnClickListener {
                     navigateToPaymentDetails(item)
