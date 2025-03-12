@@ -6,9 +6,12 @@ import com.example.userpaytracker.data.local.database.UserDatabase
 import com.example.userpaytracker.data.remote.api.RandomUserService
 import com.example.userpaytracker.data.repository.RandomUserRepositoryImpl
 import com.example.userpaytracker.domain.repository.RandomUserRepository
+import com.example.userpaytracker.domain.usecase.AddVisitorUseCase
+import com.example.userpaytracker.domain.usecase.ClearUsersUseCase
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
 import com.example.userpaytracker.presentation.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -31,5 +34,7 @@ val appModule =
         }
         single<RandomUserRepository> { RandomUserRepositoryImpl(get(), get()) }
         single { GetRandomUsersUseCase(get()) }
+        singleOf(::AddVisitorUseCase)
+        singleOf(::ClearUsersUseCase)
         viewModelOf(::HomeViewModel)
     }
