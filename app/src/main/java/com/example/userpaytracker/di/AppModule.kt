@@ -5,7 +5,9 @@ import com.example.userpaytracker.data.remote.api.RandomUserService
 import com.example.userpaytracker.data.repository.RandomUserRepositoryImpl
 import com.example.userpaytracker.domain.repository.RandomUserRepository
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
+import com.example.userpaytracker.presentation.home.HomeViewModel
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,4 +24,5 @@ val appModule =
         }
         single<RandomUserRepository> { RandomUserRepositoryImpl(get()) }
         singleOf(::GetRandomUsersUseCase)
+        viewModelOf(::HomeViewModel)
     }
