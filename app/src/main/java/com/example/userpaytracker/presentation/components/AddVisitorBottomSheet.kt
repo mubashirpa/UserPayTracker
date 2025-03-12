@@ -12,7 +12,7 @@ class AddVisitorBottomSheet : BottomSheetDialogFragment() {
     private var _binding: LayoutDialogAddVisitorBinding? = null
     private val binding get() = _binding!!
 
-    private var onAddVisitorClickListener: ((dialog: AddVisitorBottomSheet, name: String) -> Unit)? =
+    private var onAddVisitorClickListener: ((dialog: AddVisitorBottomSheet, name: String, email: String) -> Unit)? =
         null
 
     override fun onCreateView(
@@ -39,11 +39,19 @@ class AddVisitorBottomSheet : BottomSheetDialogFragment() {
                 binding.nameField.editText
                     ?.text
                     .toString()
-            onAddVisitorClickListener?.invoke(this, name)
+            val email =
+                binding.emailField.editText
+                    ?.text
+                    .toString()
+            onAddVisitorClickListener?.invoke(this, name, email)
         }
 
         binding.nameField.editText?.doOnTextChanged { text, _, _, _ ->
-            binding.saveButton.isEnabled = text?.isNotBlank() == true
+            validateFields()
+        }
+
+        binding.emailField.editText?.doOnTextChanged { text, _, _, _ ->
+            validateFields()
         }
     }
 
@@ -52,9 +60,24 @@ class AddVisitorBottomSheet : BottomSheetDialogFragment() {
         _binding = null
     }
 
-    fun setOnAddVisitorClickListener(listener: (dialog: AddVisitorBottomSheet, name: String) -> Unit): AddVisitorBottomSheet {
+    fun setOnAddVisitorClickListener(
+        listener: (dialog: AddVisitorBottomSheet, name: String, email: String) -> Unit,
+    ): AddVisitorBottomSheet {
         onAddVisitorClickListener = listener
         return this
+    }
+
+    private fun validateFields() {
+        val isNameNotEmpty =
+            !binding.nameField.editText
+                ?.text
+                .isNullOrBlank()
+        val isEmailNotEmpty =
+            !binding.emailField.editText
+                ?.text
+                .isNullOrBlank()
+
+        binding.saveButton.isEnabled = isNameNotEmpty && isEmailNotEmpty
     }
 
     companion object {

@@ -11,12 +11,16 @@ import kotlinx.coroutines.flow.flow
 class AddVisitorUseCase(
     private val repository: RandomUserRepository,
 ) {
-    operator fun invoke(name: String): Flow<Result<Boolean>> =
+    operator fun invoke(
+        name: String,
+        email: String,
+    ): Flow<Result<Boolean>> =
         flow {
             try {
                 emit(Result.Loading())
                 val user =
                     UserEntity(
+                        email = email,
                         name = name,
                         paymentAmount = 1000.0,
                         paymentCompleted = false,
