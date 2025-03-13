@@ -39,6 +39,8 @@ class RandomUserRepositoryImpl(
             shouldFetch = { it.isEmpty() },
         )
 
+    override suspend fun getUser(id: Int): Flow<User> = dao.getUser(id).map { it.toUser() }
+
     override suspend fun upsertUser(user: UserEntity) {
         dao.upsertUser(user)
     }

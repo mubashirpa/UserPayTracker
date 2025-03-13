@@ -11,6 +11,8 @@ interface RandomUserRepository {
         results: Int = 20,
     ): Flow<Result<List<User>>>
 
+    suspend fun getUser(id: Int): Flow<User>
+
     suspend fun upsertUser(user: UserEntity)
 
     suspend fun clearUsers()
