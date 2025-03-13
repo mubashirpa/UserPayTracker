@@ -3,6 +3,7 @@ package com.example.userpaytracker.presentation.main
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.userpaytracker.databinding.ActivityMainBinding
 import com.example.userpaytracker.navigation.findNavController
 import com.google.android.material.color.DynamicColors
@@ -11,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         DynamicColors.applyToActivityIfAvailable(this)
