@@ -6,6 +6,11 @@
     <string name="cancel">Cancel</string>
     <string name="full_name">Full name</string>
     <string name="clear">Clear</string>
+    <string name="email">Email</string>
+    <string name="confirm">Confirm</string>
+    <string name="cash">Cash</string>
+    <string name="upi">UPI</string>
+    <string name="_0">0</string>
 
     <!-- Screen titles -->
     <string name="title_home_screen">Users</string>
@@ -16,5 +21,4 @@
 
     <!-- Errors -->
     <string name="error_unknown">Something wrong happened. Please try again.</string>
-    <string name="email">Email</string>
 </resources>
