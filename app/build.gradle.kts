@@ -66,6 +66,5 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.koin.android)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.core.splashscreen)
 }
