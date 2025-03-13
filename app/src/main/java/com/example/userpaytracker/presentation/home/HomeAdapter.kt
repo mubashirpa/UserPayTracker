@@ -3,6 +3,8 @@ package com.example.userpaytracker.presentation.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +19,7 @@ import com.example.userpaytracker.presentation.core.utils.dpToPx
 
 class HomeAdapter(
     private val context: Context,
-    private val navigateToPaymentDetails: (User) -> Unit,
+    private val onClickListener: OnClickListener,
 ) : ListAdapter<User, HomeAdapter.ViewHolder>(DIFF_CALLBACK) {
     inner class ViewHolder(
         val binding: ListItemUsersBinding,
@@ -32,12 +34,15 @@ class HomeAdapter(
                 if (item.paymentCompleted == true) {
                     leadingImage.strokeWidth = dpToPx(2f, context).toFloat()
                 }
+                leadingImage.transitionName = item.id.toString()
+
                 headlineText.text = item.name
                 supportingText.text = item.email
                 paymentText.text = "₹${item.paymentAmount?.toInt()}"
 
                 binding.root.setOnClickListener {
-                    navigateToPaymentDetails(item)
+                    val extras = FragmentNavigatorExtras(leadingImage to item.id.toString())
+                    onClickListener.onClick(item, extras)
                 }
             }
         }
@@ -72,5 +77,14 @@ class HomeAdapter(
                     newItem: User,
                 ): Boolean = oldItem == newItem
             }
+    }
+
+    class OnClickListener(
+        val clickListener: (User, FragmentNavigator.Extras) -> Unit,
+    ) {
+        fun onClick(
+            user: User,
+            extras: FragmentNavigator.Extras,
+        ) = clickListener(user, extras)
     }
 }

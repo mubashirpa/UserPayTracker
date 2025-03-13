@@ -1,12 +1,14 @@
 package com.example.userpaytracker.presentation.home
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -33,6 +35,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val animation =
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
         return binding.root
     }
 
@@ -66,13 +72,22 @@ class HomeFragment : Fragment() {
         val adapter =
             HomeAdapter(
                 context = requireContext(),
-                navigateToPaymentDetails = { user ->
-                    user.id?.let { id ->
-                        navController.navigate(Screen.PaymentDetails(id))
-                    }
-                },
+                onClickListener =
+                    HomeAdapter.OnClickListener { user, extras ->
+                        user.id?.let { id ->
+                            navController.navigate(
+                                route = Screen.PaymentDetails(id),
+                                navigatorExtras = extras,
+                            )
+                        }
+                    },
             )
         binding.recyclerView.adapter = adapter
+
+        postponeEnterTransition()
+        binding.recyclerView.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
 
         viewModel.usersResult.observe(viewLifecycleOwner) { result ->
             val users = result.data.orEmpty()
