@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
-import coil3.request.error
 import coil3.request.placeholder
 import com.example.userpaytracker.R
 import com.example.userpaytracker.databinding.ListItemUsersBinding
@@ -29,10 +28,9 @@ class HomeAdapter(
                 leadingImage.load(item.picture) {
                     crossfade(true)
                     placeholder(R.drawable.bg_placeholder)
-                    error(R.drawable.baseline_person_24)
                 }
                 if (item.paymentCompleted == true) {
-                    leadingImage.strokeWidth = dpToPx(2f, context).toFloat()
+                    leadingImage.strokeWidth = dpToPx(3f, context).toFloat()
                 }
                 leadingImage.transitionName = item.id.toString()
 

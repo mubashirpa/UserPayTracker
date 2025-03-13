@@ -14,7 +14,7 @@
         android:layout_height="56dp"
         android:background="@drawable/bg_placeholder"
         android:contentDescription=""
-        android:padding="1dp"
+        android:padding="1.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
