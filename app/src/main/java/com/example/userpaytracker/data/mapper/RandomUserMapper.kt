@@ -27,3 +27,14 @@ fun UserEntity.toUser(): User =
         paymentMethod = paymentMethod,
         picture = picture,
     )
+
+fun User.toUserEntity(): UserEntity =
+    UserEntity(
+        id = id!!,
+        email = email,
+        name = name,
+        paymentAmount = paymentAmount,
+        paymentCompleted = paymentCompleted,
+        paymentMethod = paymentMethod,
+        picture = picture,
+    )

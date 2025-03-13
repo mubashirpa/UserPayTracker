@@ -10,6 +10,7 @@ import com.example.userpaytracker.domain.usecase.AddVisitorUseCase
 import com.example.userpaytracker.domain.usecase.ClearUsersUseCase
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
 import com.example.userpaytracker.domain.usecase.GetUserUseCase
+import com.example.userpaytracker.domain.usecase.UpdateUserUseCase
 import com.example.userpaytracker.presentation.home.HomeViewModel
 import com.example.userpaytracker.presentation.paymentDetails.PaymentDetailsViewModel
 import org.koin.android.ext.koin.androidContext
@@ -39,5 +40,7 @@ val appModule =
         singleOf(::AddVisitorUseCase)
         singleOf(::ClearUsersUseCase)
         singleOf(::GetUserUseCase)
+        singleOf(::UpdateUserUseCase)
         viewModelOf(::HomeViewModel)
+        viewModelOf(::PaymentDetailsViewModel)
     }
