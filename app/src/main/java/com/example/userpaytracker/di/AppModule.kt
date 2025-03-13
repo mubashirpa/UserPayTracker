@@ -9,7 +9,9 @@ import com.example.userpaytracker.domain.repository.RandomUserRepository
 import com.example.userpaytracker.domain.usecase.AddVisitorUseCase
 import com.example.userpaytracker.domain.usecase.ClearUsersUseCase
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
+import com.example.userpaytracker.domain.usecase.GetUserUseCase
 import com.example.userpaytracker.presentation.home.HomeViewModel
+import com.example.userpaytracker.presentation.paymentDetails.PaymentDetailsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -36,5 +38,6 @@ val appModule =
         single { GetRandomUsersUseCase(get()) }
         singleOf(::AddVisitorUseCase)
         singleOf(::ClearUsersUseCase)
+        singleOf(::GetUserUseCase)
         viewModelOf(::HomeViewModel)
     }
