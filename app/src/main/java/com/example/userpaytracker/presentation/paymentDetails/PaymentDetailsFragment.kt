@@ -10,12 +10,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.crossfade
-import coil3.request.error
 import coil3.request.placeholder
 import com.example.userpaytracker.R
+import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.databinding.FragmentPaymentDetailsBinding
+import com.example.userpaytracker.domain.model.PaymentMethod
+import com.example.userpaytracker.presentation.core.utils.dpToPx
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 import kotlin.getValue
@@ -25,6 +30,7 @@ class PaymentDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PaymentDetailsViewModel by viewModel()
+    private val navController by lazy { findNavController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +77,34 @@ class PaymentDetailsFragment : Fragment() {
             binding.profile.load(it.picture) {
                 crossfade(true)
                 placeholder(R.drawable.bg_placeholder)
-                error(R.drawable.baseline_person_24)
+            }
+
+            if (it.paymentCompleted == true) {
+                binding.profile.strokeWidth = dpToPx(3f, requireContext()).toFloat()
+            }
+
+            when (it.paymentMethod) {
+                PaymentMethod.UPI -> binding.upi.isChecked = true
+                PaymentMethod.CASH -> binding.cash.isChecked = true
+                else -> {}
+            }
+        }
+
+        viewModel.updateResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {
+                    showMessage(getString(R.string.error_unknown))
+                }
+
+                is Result.Success -> {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage(getString(R.string.payment_completed))
+                        .setPositiveButton(getString(R.string._continue)) { dialog, which ->
+                            navController.navigateUp()
+                        }.show()
+                }
+
+                else -> {}
             }
         }
 
@@ -82,10 +115,40 @@ class PaymentDetailsFragment : Fragment() {
         binding.cash.setOnClickListener {
             binding.upi.isChecked = false
         }
+
+        binding.payButton.setOnClickListener {
+            val amount =
+                binding.amount.text
+                    .toString()
+                    .toDoubleOrNull() ?: 0.0
+            if (amount < 1) {
+                showMessage(getString(R.string.amount_cannot_be_less_than_1))
+                return@setOnClickListener
+            }
+
+            val paymentMethod =
+                when {
+                    binding.upi.isChecked -> PaymentMethod.UPI
+                    binding.cash.isChecked -> PaymentMethod.CASH
+                    else -> {
+                        showMessage(getString(R.string.please_select_a_payment_method))
+                        return@setOnClickListener
+                    }
+                }
+
+            viewModel.onEvent(PaymentDetailsUiEvent.Confirm(amount, paymentMethod))
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar
+            .make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .setAnchorView(binding.radioGroup)
+            .show()
     }
 }

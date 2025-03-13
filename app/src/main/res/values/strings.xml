@@ -11,6 +11,10 @@
     <string name="cash">Cash</string>
     <string name="upi">UPI</string>
     <string name="_0">0</string>
+    <string name="amount_cannot_be_less_than_1">Amount cannot be less than ₹1</string>
+    <string name="please_select_a_payment_method">Please select a payment method</string>
+    <string name="payment_completed">Payment completed</string>
+    <string name="_continue">Continue</string>
 
     <!-- Screen titles -->
     <string name="title_home_screen">Users</string>
