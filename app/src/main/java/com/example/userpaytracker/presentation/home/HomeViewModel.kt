@@ -52,6 +52,7 @@ class HomeViewModel(
     }
 
     private fun clearUsers() {
+        _usersResult.value = Result.Empty()
         clearUsersUseCase()
             .onEach { result ->
                 if (result is Result.Success) {
