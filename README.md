@@ -9,7 +9,7 @@ features. The app follows the MVVM architecture and includes offline caching usi
 ### User Data Retrieval
 
 - Fetch user details from the
-  API: [RandomUser API](https://randomuser.me/api/?results=100&gender=male)
+  API: [RandomUser API](https://randomuser.me/api?page=1&results=20)
 - Display user list with names, profile pictures, and payment status
 
 ### Payment Details Management
@@ -53,7 +53,7 @@ features. The app follows the MVVM architecture and includes offline caching usi
 The app fetches user data from:
 
 ```
-https://randomuser.me/api?results=20
+https://randomuser.me/api?page=1&results=20
 ```
 
 ## Known Limitations
