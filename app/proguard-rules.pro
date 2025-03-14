@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# This rule will properly ProGuard all the model classes in
+# the package com.example.userpaytracker.data.remote.dto.
+-keepclassmembers class com.example.userpaytracker.data.remote.dto.** {
+    *;
+}
+
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn java.awt.Component
+-dontwarn java.awt.GraphicsEnvironment
+-dontwarn java.awt.HeadlessException
+-dontwarn java.awt.Window
