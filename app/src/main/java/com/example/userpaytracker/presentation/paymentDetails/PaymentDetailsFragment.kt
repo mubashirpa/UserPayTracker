@@ -18,8 +18,8 @@ import com.example.userpaytracker.R
 import com.example.userpaytracker.core.Result
 import com.example.userpaytracker.databinding.FragmentPaymentDetailsBinding
 import com.example.userpaytracker.domain.model.PaymentMethod
+import com.example.userpaytracker.presentation.components.PaymentSuccessDialog
 import com.example.userpaytracker.presentation.core.utils.dpToPx
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -97,11 +97,13 @@ class PaymentDetailsFragment : Fragment() {
                 }
 
                 is Result.Success -> {
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setMessage(getString(R.string.payment_completed))
-                        .setPositiveButton(getString(R.string._continue)) { dialog, which ->
-                            navController.navigateUp()
-                        }.show()
+                    val dialog =
+                        PaymentSuccessDialog()
+                            .setOnDismissListener {
+                                navController.navigateUp()
+                            }
+                    dialog.isCancelable = false
+                    dialog.show(childFragmentManager, PaymentSuccessDialog.TAG)
                 }
 
                 else -> {}
