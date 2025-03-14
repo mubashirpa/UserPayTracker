@@ -39,6 +39,19 @@ class RandomUserRepositoryImpl(
             shouldFetch = { it.isEmpty() },
         )
 
+    override suspend fun getRandomUsersToLocal(
+        page: Int,
+        results: Int,
+    ) {
+        val users = api.getRandomUsers(page, results).toUserEntity()
+        database.withTransaction {
+            dao.clearAll()
+            dao.upsertAll(users)
+        }
+    }
+
+    override suspend fun getRandomUsersFromLocal(): Flow<List<User>> = dao.getAll().map { it.map { it.toUser() } }
+
     override suspend fun getUser(id: Int): Flow<User> = dao.getUser(id).map { it.toUser() }
 
     override suspend fun upsertUser(user: UserEntity) {

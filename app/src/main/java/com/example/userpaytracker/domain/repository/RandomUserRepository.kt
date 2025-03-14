@@ -11,6 +11,13 @@ interface RandomUserRepository {
         results: Int = 20,
     ): Flow<Result<List<User>>>
 
+    suspend fun getRandomUsersToLocal(
+        page: Int = 1,
+        results: Int = 20,
+    )
+
+    suspend fun getRandomUsersFromLocal(): Flow<List<User>>
+
     suspend fun getUser(id: Int): Flow<User>
 
     suspend fun upsertUser(user: UserEntity)
