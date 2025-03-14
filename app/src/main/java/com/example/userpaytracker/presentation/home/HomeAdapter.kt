@@ -29,9 +29,9 @@ class HomeAdapter(
                     crossfade(true)
                     placeholder(R.drawable.bg_placeholder)
                 }
-                if (item.paymentCompleted == true) {
-                    leadingImage.strokeWidth = dpToPx(3f, context).toFloat()
-                }
+                val strokeWidth =
+                    if (item.paymentCompleted == true) dpToPx(3f, context).toFloat() else 0f
+                leadingImage.strokeWidth = strokeWidth
                 leadingImage.transitionName = item.id.toString()
 
                 headlineText.text = item.name
