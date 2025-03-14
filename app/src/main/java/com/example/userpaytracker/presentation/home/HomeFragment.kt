@@ -9,7 +9,6 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -20,7 +19,6 @@ import com.example.userpaytracker.databinding.FragmentHomeBinding
 import com.example.userpaytracker.navigation.Screen
 import com.example.userpaytracker.presentation.components.AddVisitorBottomSheet
 import com.example.userpaytracker.presentation.core.utils.dpToPx
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -98,38 +96,17 @@ class HomeFragment : Fragment() {
                 is Result.Empty -> {}
 
                 is Result.Error -> {
-                    val isEmpty = users.isEmpty()
-                    if (isEmpty) {
-                        binding.errorText.text = message
-                    } else {
-                        Snackbar
-                            .make(
-                                requireContext(),
-                                binding.root,
-                                message ?: "",
-                                Snackbar.LENGTH_INDEFINITE,
-                            ).setAction(R.string.retry) {
-                                viewModel.onEvent(HomeUiEvent.Retry)
-                            }.setAnchorView(binding.extendedFab)
-                            .show()
-                    }
                     binding.progressCircular.visibility = View.GONE
-                    binding.errorView.isVisible = isEmpty
-                    binding.recyclerView.isVisible = !isEmpty
+                    binding.errorText.text = message
+                    binding.errorView.visibility = View.VISIBLE
                 }
 
                 is Result.Loading -> {
                     binding.errorView.visibility = View.GONE
                     binding.progressCircular.visibility = View.VISIBLE
-                    if (users.isNotEmpty()) {
-                        adapter.submitList(users) {
-                            binding.recyclerView.visibility = View.VISIBLE
-                        }
-                    }
                 }
 
                 is Result.Success -> {
-                    binding.errorView.visibility = View.GONE
                     adapter.submitList(users) {
                         binding.progressCircular.visibility = View.GONE
                         binding.recyclerView.visibility = View.VISIBLE
