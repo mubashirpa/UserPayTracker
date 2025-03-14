@@ -52,9 +52,22 @@ features. The app follows the MVVM architecture and includes offline caching usi
    git clone https://github.com/yourusername/UserPayTracker.git
    cd UserPayTracker
    ```
-2. **Open in Android Studio**
-3. **Sync Gradle and build the project**
-4. **Run the application on an emulator or a physical device**
+2. **Create a keystore file**
+    - Navigate to the `app` directory and create a keystore file (`your-keystore.jks`).
+    - This file is required for signing the application.
+3. **Set up the keystore properties before syncing the project**
+    - Create a `keystore.properties` file in the project's root directory and add the following
+      values:
+      ```properties
+      storePassword=your-store-password
+      keyPassword=your-key-password
+      keyAlias=your-key-alias
+      storeFile=app/your-keystore.jks
+      ```
+    - Ensure that the file is referenced correctly in `build.gradle` to fetch the keystore details.
+4. **Open in Android Studio**
+5. **Sync Gradle and build the project**
+6. **Run the application on an emulator or a physical device**
 
 ## API Reference
 
