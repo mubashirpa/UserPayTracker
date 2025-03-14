@@ -11,7 +11,6 @@ import com.example.userpaytracker.domain.usecase.ClearUsersUseCase
 import com.example.userpaytracker.domain.usecase.GetRandomUsersUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getRandomUsersUseCase: GetRandomUsersUseCase,
@@ -36,12 +35,10 @@ class HomeViewModel(
     }
 
     private fun getRandomUsers() {
-        viewModelScope.launch {
-            getRandomUsersUseCase()
-                .onEach { result ->
-                    _usersResult.value = result
-                }.launchIn(this)
-        }
+        getRandomUsersUseCase()
+            .onEach { result ->
+                _usersResult.value = result
+            }.launchIn(viewModelScope)
     }
 
     private fun addVisitor(
@@ -52,12 +49,7 @@ class HomeViewModel(
     }
 
     private fun clearUsers() {
-        _usersResult.value = Result.Empty()
-        clearUsersUseCase()
-            .onEach { result ->
-                if (result is Result.Success) {
-                    getRandomUsers()
-                }
-            }.launchIn(viewModelScope)
+        _usersResult.value = Result.Loading()
+        clearUsersUseCase().launchIn(viewModelScope)
     }
 }
