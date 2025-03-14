@@ -4,6 +4,14 @@ UserPayTracker is a Kotlin-based mobile application designed to retrieve and dis
 from an API. Users can update their payment methods and add visitors, with payment tracking
 features. The app follows the MVVM architecture and includes offline caching using Room.
 
+## **Screenshots**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="screenshots/screenshot-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="screenshots/screenshot.png">
+  <img alt="App Screenshot" src="screenshots/screenshot.png">
+</picture>
+
 ## Features
 
 ### User Data Retrieval
