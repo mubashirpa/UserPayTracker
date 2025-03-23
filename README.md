@@ -45,7 +45,7 @@ features. The app follows the MVVM architecture and includes offline caching usi
 - **RecyclerView** for displaying user lists
 - **Material Design Components** for a user-friendly interface
 
-## 🔧 Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository**
    ```sh
