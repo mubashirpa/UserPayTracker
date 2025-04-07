@@ -62,7 +62,7 @@ features. The app follows the MVVM architecture and includes offline caching usi
       storePassword=your-store-password
       keyPassword=your-key-password
       keyAlias=your-key-alias
-      storeFile=app/your-keystore.jks
+      storeFile=your-keystore.jks
       ```
     - Ensure that the file is referenced correctly in `build.gradle` to fetch the keystore details.
 4. **Open in Android Studio**
